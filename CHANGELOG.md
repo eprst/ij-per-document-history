@@ -1,7 +1,7 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# ij-per-document-history Changelog
+# IntelliJ per-document jump history changelog
 
 ## [Unreleased]
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- Custom `IdeDocumentHistoryImpl`

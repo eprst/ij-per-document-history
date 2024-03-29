@@ -103,8 +103,8 @@ tasks {
     }
 
     signPlugin {
-        certificateChain = environment("CERTIFICATE_CHAIN")
-        privateKey = environment("PRIVATE_KEY")
+        certificateChainFile.set(file("~/keys/ij-plugin/chain.crt"))
+        privateKeyFile.set(file("~/keys/ij-plugin/private.pem"))
         password = environment("PRIVATE_KEY_PASSWORD")
     }
 

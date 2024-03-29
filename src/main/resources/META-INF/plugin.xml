@@ -1,18 +1,30 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.eprst.ijperdocumenthistory</id>
-    <name>ij-per-document-history</name>
-    <vendor>eprst</vendor>
+  <id>com.github.eprst.ijperdocumenthistory</id>
+  <name>Per Document Jump History</name>
+  <vendor>Konstantin Sobolev</vendor>
 
-    <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.eprst.ijperdocumenthistory.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.eprst.ijperdocumenthistory.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+  <extensions defaultExtensionNs="com.intellij">
+    <projectService
+        serviceInterface="com.intellij.openapi.fileEditor.ex.IdeDocumentHistory"
+        serviceImplementation="com.intellij.openapi.fileEditor.impl.MyIdeDocumentHistoryImpl"
+        overrides="true"/>
+  </extensions>
+  <actions>
+    <action id="com.intellij.openapi.fileEditor.impl.ForwardInDocumentAction"
+            class="com.intellij.openapi.fileEditor.impl.ForwardInDocumentAction"
+            text="Forward (Current Document)"
+            description="Per-document forward"
+            icon="AllIcons.Actions.Forward">
+      <add-to-group group-id="GoToMenu" anchor="first"/>
+    </action>
+    <action id="com.intellij.openapi.fileEditor.impl.BackInDocumentAction"
+            class="com.intellij.openapi.fileEditor.impl.BackInDocumentAction"
+            text="Back (Current Document)"
+            description="Per-document back"
+            icon="AllIcons.Actions.Back">
+      <add-to-group group-id="GoToMenu" anchor="first"/>
+    </action>
+  </actions>
 </idea-plugin>
