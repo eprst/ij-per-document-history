@@ -27,4 +27,8 @@
       <add-to-group group-id="GoToMenu" anchor="first"/>
     </action>
   </actions>
+  <applicationListeners>
+    <listener class="com.intellij.openapi.fileEditor.impl.ShiftPressedListener"
+              topic="com.intellij.ide.AppLifecycleListener"/>
+  </applicationListeners>
 </idea-plugin>

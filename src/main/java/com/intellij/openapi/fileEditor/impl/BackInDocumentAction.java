@@ -10,13 +10,13 @@ import java.util.Objects;
 public class BackInDocumentAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {
-    getHistory(e).backInCurrentDocument();
+    getHistory(e).backInCurrentDocument(ShiftPressedListener.shiftPressed);
   }
 
   @Override
   public void update(@NotNull final AnActionEvent e) {
     super.update(e);
-    e.getPresentation().setEnabled(getHistory(e).getBackInCurrentDocumentPlace().isPresent());
+    e.getPresentation().setEnabled(getHistory(e).canGoBackInCurrentDocument(ShiftPressedListener.shiftPressed));
   }
 
   private MyIdeDocumentHistoryImpl getHistory(final AnActionEvent e) {
