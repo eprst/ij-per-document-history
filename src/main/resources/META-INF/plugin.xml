@@ -26,6 +26,12 @@
             icon="AllIcons.Actions.Back">
       <add-to-group group-id="GoToMenu" anchor="first"/>
     </action>
+    <!--suppress PluginXmlCapitalization -->
+    <action id="com.intellij.openapi.fileEditor.impl.SyncTreeBackgroundAction"
+            class="com.intellij.openapi.fileEditor.impl.SyncTreeBackgroundAction"
+            text="Synchronize Tree.background Color"
+            description="Syncrhonize Tree.background color with the editor background color"
+    />
   </actions>
   <applicationListeners>
     <listener class="com.intellij.openapi.fileEditor.impl.ShiftPressedListener"
