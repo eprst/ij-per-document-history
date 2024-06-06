@@ -30,7 +30,8 @@
     <action id="com.intellij.openapi.fileEditor.impl.SyncTreeBackgroundAction"
             class="com.intellij.openapi.fileEditor.impl.SyncTreeBackgroundAction"
             text="Synchronize Tree.background Color"
-            description="Syncrhonize Tree.background color with the editor background color"
+            description="Synchronize Tree.background color with the editor background color"
+            icon="AllIcons.Actions.Colors"
     />
   </actions>
   <applicationListeners>
