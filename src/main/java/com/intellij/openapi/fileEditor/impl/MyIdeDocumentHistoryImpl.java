@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.fileEditor.ex.FileEditorWithProvider;
 import com.intellij.openapi.project.Project;
+import kotlinx.coroutines.CoroutineScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,8 +16,8 @@ import java.util.*;
 public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
   private final Project myProject;
 
-  public MyIdeDocumentHistoryImpl(@NotNull final Project project) {
-    super(project);
+  public MyIdeDocumentHistoryImpl(@NotNull final Project project, @NotNull final CoroutineScope coroutineScope) {
+    super(project, coroutineScope);
     myProject = project;
   }
 
@@ -103,26 +104,34 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
 
   private LinkedList<PlaceInfo> superBackPlaces() {
     var sup = getClass().getSuperclass();
-    try {
-      var fld = sup.getDeclaredField("myBackPlaces");
-      fld.setAccessible(true);
-      //noinspection unchecked
-      return (LinkedList<PlaceInfo>) fld.get(this);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+    RuntimeException savedException = null;
+    for (var name : new String[]{"myBackPlaces", "backPlaces"}) {
+      try {
+        var fld = sup.getDeclaredField(name);
+        fld.setAccessible(true);
+        //noinspection unchecked
+        return (LinkedList<PlaceInfo>) fld.get(this);
+      } catch (NoSuchFieldException | IllegalAccessException e) {
+        savedException = new RuntimeException(e);
+      }
     }
+    throw savedException;
   }
 
   private LinkedList<PlaceInfo> superForwardPlaces() {
     var sup = getClass().getSuperclass();
-    try {
-      var fld = sup.getDeclaredField("myForwardPlaces");
-      fld.setAccessible(true);
-      //noinspection unchecked
-      return (LinkedList<PlaceInfo>) fld.get(this);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+    RuntimeException savedException = null;
+    for (var name : new String[]{"myForwardPlaces", "forwardPlaces"}) {
+      try {
+        var fld = sup.getDeclaredField(name);
+        fld.setAccessible(true);
+        //noinspection unchecked
+        return (LinkedList<PlaceInfo>) fld.get(this);
+      } catch (NoSuchFieldException | IllegalAccessException e) {
+        savedException = new RuntimeException(e);
+      }
     }
+    throw savedException;
   }
 
   private void setSuperBackInProgress(boolean p) {
@@ -138,13 +147,18 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
 
   private void setSuperForwardInProgress(boolean p) {
     var sup = getClass().getSuperclass();
-    try {
-      var fld = sup.getDeclaredField("myForwardInProgress");
-      fld.setAccessible(true);
-      fld.setBoolean(this, p);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+    RuntimeException savedException = null;
+    for (var name : new String[]{"myForwardInProgress", "forwardInProgress"}) {
+      try {
+        var fld = sup.getDeclaredField(name);
+        fld.setAccessible(true);
+        fld.setBoolean(this, p);
+        return;
+      } catch (NoSuchFieldException | IllegalAccessException e) {
+        savedException = new RuntimeException(e);
+      }
     }
+    throw savedException;
   }
 
   private void superRemoveInvalidFilesFromStacks() {

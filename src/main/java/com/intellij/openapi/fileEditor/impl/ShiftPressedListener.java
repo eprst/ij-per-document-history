@@ -2,12 +2,14 @@ package com.intellij.openapi.fileEditor.impl;
 
 import com.intellij.ide.AppLifecycleListener;
 import com.intellij.ide.IdeEventQueue;
+import com.intellij.openapi.Disposable;
 
 import java.awt.event.KeyEvent;
 
 public class ShiftPressedListener implements AppLifecycleListener {
   static boolean shiftPressed;
 
+  @SuppressWarnings("UnstableApiUsage")
   @Override
   public void appStarted() {
     IdeEventQueue.getInstance().addDispatcher(e -> {
@@ -19,6 +21,6 @@ public class ShiftPressedListener implements AppLifecycleListener {
         }
       }
       return false;
-    }, null);
+    }, (Disposable) null);
   }
 }
