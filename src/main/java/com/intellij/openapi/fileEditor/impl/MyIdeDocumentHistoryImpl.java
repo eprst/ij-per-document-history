@@ -1,6 +1,5 @@
 package com.intellij.openapi.fileEditor.impl;
 
-import com.google.common.collect.Lists;
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.fileEditor.ex.FileEditorWithProvider;
 import com.intellij.openapi.project.Project;
@@ -72,7 +71,8 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     var curEditor = getSelectedEditor();
     if (curEditor != null) {
       var backPlaces = superBackPlaces();
-      return Lists.reverse(backPlaces)
+      return backPlaces
+          .reversed()
           .stream()
           .filter(p -> p.getFile().equals(curEditor.getFileEditor().getFile()))
           .findFirst();
@@ -93,7 +93,8 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     var curEditor = getSelectedEditor();
     if (curEditor != null) {
       var forwardPlaces = superForwardPlaces();
-      return Lists.reverse(forwardPlaces)
+      return forwardPlaces
+          .reversed()
           .stream()
           .filter(p -> p.getFile().equals(curEditor.getFileEditor().getFile()))
           .findFirst();
@@ -102,7 +103,7 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     }
   }
 
-  private LinkedList<PlaceInfo> superBackPlaces() {
+  private ArrayDeque<PlaceInfo> superBackPlaces() {
     var sup = getClass().getSuperclass();
     RuntimeException savedException = null;
     for (var name : new String[]{"myBackPlaces", "backPlaces"}) {
@@ -110,7 +111,7 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
         var fld = sup.getDeclaredField(name);
         fld.setAccessible(true);
         //noinspection unchecked
-        return (LinkedList<PlaceInfo>) fld.get(this);
+        return (ArrayDeque<PlaceInfo>) fld.get(this);
       } catch (NoSuchFieldException | IllegalAccessException e) {
         savedException = new RuntimeException(e);
       }
@@ -118,7 +119,7 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     throw savedException;
   }
 
-  private LinkedList<PlaceInfo> superForwardPlaces() {
+  private ArrayDeque<PlaceInfo> superForwardPlaces() {
     var sup = getClass().getSuperclass();
     RuntimeException savedException = null;
     for (var name : new String[]{"myForwardPlaces", "forwardPlaces"}) {
@@ -126,7 +127,7 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
         var fld = sup.getDeclaredField(name);
         fld.setAccessible(true);
         //noinspection unchecked
-        return (LinkedList<PlaceInfo>) fld.get(this);
+        return (ArrayDeque<PlaceInfo>) fld.get(this);
       } catch (NoSuchFieldException | IllegalAccessException e) {
         savedException = new RuntimeException(e);
       }
@@ -136,13 +137,18 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
 
   private void setSuperBackInProgress(boolean p) {
     var sup = getClass().getSuperclass();
-    try {
-      var fld = sup.getDeclaredField("myBackInProgress");
-      fld.setAccessible(true);
-      fld.setBoolean(this, p);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+    RuntimeException savedException = null;
+    for (var name : new String[]{"myBackInProgress", "backInProgress"}) {
+      try {
+        var fld = sup.getDeclaredField(name);
+        fld.setAccessible(true);
+        fld.setBoolean(this, p);
+        return;
+      } catch (NoSuchFieldException | IllegalAccessException e) {
+        savedException = new RuntimeException(e);
+      }
     }
+    throw savedException;
   }
 
   private void setSuperForwardInProgress(boolean p) {
