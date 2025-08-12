@@ -39,7 +39,8 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         name = properties("pluginName")
-        version = properties("platformVersion")
+        // Use the plugin's version, not the platform version
+        version = properties("pluginVersion")
     }
 }
 
@@ -56,7 +57,9 @@ tasks {
         targetCompatibility = "21"
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "21"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        }
     }
 
     signPlugin {
