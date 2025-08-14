@@ -1,7 +1,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# IntelliJ per-document jump history changelog
+# Per-document jump history changelog
 
 ## [Unreleased]
-### Added
-- Custom `IdeDocumentHistoryImpl`
+
+## [0.0.2]
+Initial publicly released version.
