@@ -85,6 +85,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
+            untilBuild = providers.gradleProperty("pluginUntilBuild")
         }
     }
 
@@ -104,7 +105,8 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            // Use the target platform version for verification to avoid resolving not-yet-published EAP builds
+            create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
         }
     }
 }
