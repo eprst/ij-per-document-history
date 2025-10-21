@@ -69,12 +69,17 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
 
   public Optional<PlaceInfo> getBackInCurrentDocumentPlace() {
     var curEditor = getSelectedEditor();
+
     if (curEditor != null) {
       var backPlaces = superBackPlaces();
+      var currentPlace = getCurrentPlaceInfo();
+      var currentWindow = currentPlace == null ? null : currentPlace.getWindow();
+
       return backPlaces
           .reversed()
           .stream()
           .filter(p -> p.getFile().equals(curEditor.getFileEditor().getFile()))
+          .filter(p -> currentWindow == null || currentWindow == p.getWindow())
           .findFirst();
     } else {
       return Optional.empty();
@@ -93,10 +98,14 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     var curEditor = getSelectedEditor();
     if (curEditor != null) {
       var forwardPlaces = superForwardPlaces();
+      var currentPlace = getCurrentPlaceInfo();
+      var currentWindow = currentPlace == null ? null : currentPlace.getWindow();
+
       return forwardPlaces
           .reversed()
           .stream()
           .filter(p -> p.getFile().equals(curEditor.getFileEditor().getFile()))
+          .filter(p -> currentWindow == null || currentWindow == p.getWindow())
           .findFirst();
     } else {
       return Optional.empty();

@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.0.4]
+
+### Fixed
+- [issues/92](https://github.com/eprst/ij-per-document-history/issues/92): history is now tracked per editor. This means
+each split gets its own history if the same document is opened in multiple splits.
+
 ## [0.0.3]
 
 ### Fixed
