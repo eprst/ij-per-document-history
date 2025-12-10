@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.5]
+
+### Changed
+- Made plugin compatible with IntelliJ Platform version 253 (2025.3)
+
 ## [0.0.4]
 
 ### Fixed
