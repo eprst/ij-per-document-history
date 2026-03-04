@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.6]
+
+### Fixed
+- Fixed NullPointerException in ForwardInDocumentAction and BackInDocumentAction when no project is available
+
 ## [0.0.5]
 
 ### Changed
