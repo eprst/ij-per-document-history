@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.7]
+
+### Fixed
+- Fixed compatibility with IntelliJ IDEA 2024.3+: removed usage of deleted IdeEventQueue.addDispatcher API
+
 ## [0.0.6]
 
 ### Fixed

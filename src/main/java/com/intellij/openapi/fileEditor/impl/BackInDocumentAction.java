@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class BackInDocumentAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {

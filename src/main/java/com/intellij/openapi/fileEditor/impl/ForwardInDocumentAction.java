@@ -5,10 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-import static java.awt.event.ActionEvent.SHIFT_MASK;
-
 public class ForwardInDocumentAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {
