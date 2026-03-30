@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.0.8]
+
+### Changed
+- Extended compatibility to include IntelliJ Platform version 261 (2026.1)
+
 ## [0.0.7]
 
 ### Fixed
