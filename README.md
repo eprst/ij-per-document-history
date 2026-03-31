@@ -6,8 +6,7 @@
 
 <!-- Plugin description -->
 Adds `Back (Current Document)` and `Forward (Current Document)` actions which track jump history inside current document only.
-Holding "Shift" while invoking them switches to global navigation. They can be mapped to your favorite Back/Forward
-navigation shortcuts instead of the default actions.
+They can be mapped to your favorite Back/Forward navigation shortcuts instead of the default actions.
 <!-- Plugin description end -->
 
 ## Installation
