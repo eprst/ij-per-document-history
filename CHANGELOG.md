@@ -3,6 +3,7 @@
 # Per-document jump history changelog
 
 ## [Unreleased]
+- Removed `Shift` handling, can be done natively by binding the original 'Back/Forward' actions to the same shortcuts, but with `Shift`
 
 ## [0.0.8]
 

@@ -8,14 +8,17 @@ import org.jetbrains.annotations.NotNull;
 public class ForwardInDocumentAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {
-    getHistory(e).forwardInCurrentDocument(ShiftPressedListener.shiftPressed);
+    final MyIdeDocumentHistoryImpl documentHistory = getHistory(e);
+    if (documentHistory != null) {
+      documentHistory.forwardInCurrentDocument();
+    }
   }
 
   @Override
   public void update(@NotNull final AnActionEvent e) {
     super.update(e);
     MyIdeDocumentHistoryImpl history = getHistory(e);
-    e.getPresentation().setEnabled(history != null && history.canGoForwardInCurrentDocument(ShiftPressedListener.shiftPressed));
+    e.getPresentation().setEnabled(history != null && history.canGoForwardInCurrentDocument());
   }
 
   private MyIdeDocumentHistoryImpl getHistory(final AnActionEvent e) {

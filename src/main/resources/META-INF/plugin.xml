@@ -34,8 +34,4 @@
             icon="AllIcons.Actions.Colors"
     />
   </actions>
-  <applicationListeners>
-    <listener class="com.intellij.openapi.fileEditor.impl.ShiftPressedListener"
-              topic="com.intellij.ide.AppLifecycleListener"/>
-  </applicationListeners>
 </idea-plugin>

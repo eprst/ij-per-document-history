@@ -20,51 +20,39 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     myProject = project;
   }
 
-  public void backInCurrentDocument(boolean shiftPressed) {
-    if (shiftPressed) {
-      super.back();
-    } else {
-      superRemoveInvalidFilesFromStacks();
-      getBackInCurrentDocumentPlace().ifPresent(place -> {
-        superBackPlaces().remove(place);
-        myProject.getMessageBus().syncPublisher(RecentPlacesListener.TOPIC).recentPlaceRemoved(place, false);
+  public void backInCurrentDocument() {
+    superRemoveInvalidFilesFromStacks();
+    getBackInCurrentDocumentPlace().ifPresent(place -> {
+      superBackPlaces().remove(place);
+      myProject.getMessageBus().syncPublisher(RecentPlacesListener.TOPIC).recentPlaceRemoved(place, false);
 
-        var current = getCurrentPlaceInfo();
-        if (current != null) superForwardPlaces().add(current);
+      var current = getCurrentPlaceInfo();
+      if (current != null) superForwardPlaces().add(current);
 
-        setSuperBackInProgress(true);
-        try {
-          executeCommand(() -> gotoPlaceInfo(place), "", null);
-        } finally {
-          setSuperBackInProgress(false);
-        }
-      });
-    }
+      setSuperBackInProgress(true);
+      try {
+        executeCommand(() -> gotoPlaceInfo(place), "", null);
+      } finally {
+        setSuperBackInProgress(false);
+      }
+    });
   }
 
-  public void forwardInCurrentDocument(boolean shiftPressed) {
-    if (shiftPressed) {
-      super.forward();
-    } else {
-      superRemoveInvalidFilesFromStacks();
-      getForwardInCurrentDocumentPlace().ifPresent(place -> {
-        superForwardPlaces().remove(place);
-        setSuperForwardInProgress(true);
-        try {
-          executeCommand(() -> gotoPlaceInfo(place), "", null);
-        } finally {
-          setSuperForwardInProgress(false);
-        }
-      });
-    }
+  public void forwardInCurrentDocument() {
+    superRemoveInvalidFilesFromStacks();
+    getForwardInCurrentDocumentPlace().ifPresent(place -> {
+      superForwardPlaces().remove(place);
+      setSuperForwardInProgress(true);
+      try {
+        executeCommand(() -> gotoPlaceInfo(place), "", null);
+      } finally {
+        setSuperForwardInProgress(false);
+      }
+    });
   }
 
-  public boolean canGoBackInCurrentDocument(boolean shiftPressed) {
-    if (shiftPressed) {
-      return super.isBackAvailable();
-    } else {
-      return getBackInCurrentDocumentPlace().isPresent();
-    }
+  public boolean canGoBackInCurrentDocument() {
+    return getBackInCurrentDocumentPlace().isPresent();
   }
 
   public Optional<PlaceInfo> getBackInCurrentDocumentPlace() {
@@ -86,12 +74,8 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     }
   }
 
-  public boolean canGoForwardInCurrentDocument(boolean shiftPressed) {
-    if (shiftPressed) {
-      return super.isForwardAvailable();
-    } else {
-      return getForwardInCurrentDocumentPlace().isPresent();
-    }
+  public boolean canGoForwardInCurrentDocument() {
+    return getForwardInCurrentDocumentPlace().isPresent();
   }
 
   public Optional<PlaceInfo> getForwardInCurrentDocumentPlace() {
