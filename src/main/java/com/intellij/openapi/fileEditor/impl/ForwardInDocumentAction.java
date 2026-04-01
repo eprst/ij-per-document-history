@@ -9,16 +9,16 @@ public class ForwardInDocumentAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull final AnActionEvent e) {
     final MyIdeDocumentHistoryImpl documentHistory = getHistory(e);
-    if (documentHistory != null) {
-      documentHistory.forwardInCurrentDocument();
-    }
+    if (documentHistory != null)
+      documentHistory.forwardInCurrentDocument(ShiftPressedListener.shiftPressed);
   }
 
   @Override
   public void update(@NotNull final AnActionEvent e) {
     super.update(e);
     MyIdeDocumentHistoryImpl history = getHistory(e);
-    e.getPresentation().setEnabled(history != null && history.canGoForwardInCurrentDocument());
+    e.getPresentation()
+        .setEnabled(history != null && history.canGoForwardInCurrentDocument(ShiftPressedListener.shiftPressed));
   }
 
   private MyIdeDocumentHistoryImpl getHistory(final AnActionEvent e) {
