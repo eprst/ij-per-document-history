@@ -3,27 +3,16 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
-    alias(libs.plugins.kotlin) // Kotlin support
-    alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
-    alias(libs.plugins.changelog) // Gradle Changelog Plugin
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.intellij.platform")
+    id("org.jetbrains.changelog")
 }
 
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
-// Configure project's dependencies
-repositories {
-    mavenCentral()
-
-    // IntelliJ Platform Gradle Plugin Repositories Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-repositories-extension.html
-    intellijPlatform {
-        defaultRepositories()
-    }
-}
-
-// Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/version_catalogs.html
 dependencies {
-    testImplementation(libs.junit)
+    testImplementation("junit:junit:4.13.2")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
