@@ -1,6 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -51,6 +52,13 @@ intellijPlatform {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
             untilBuild = providers.gradleProperty("pluginUntilBuild")
         }
+    }
+
+    // The plugin overrides IdeDocumentHistoryImpl, so internal/override-only API usages are
+    // expected. Pin failureLevel to the IPP 2.14.0 default to keep these as warnings under
+    // 2.15.0+, which expanded the default to fail on them.
+    pluginVerification {
+        failureLevel = listOf(VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS)
     }
 }
 
