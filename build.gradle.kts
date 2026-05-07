@@ -16,6 +16,10 @@ dependencies {
     intellijPlatform {
         intellijIdea("2025.3")
         testFramework(TestFrameworkType.Platform)
+        // Pin Plugin Verifier — 1.403 has a ContentModuleScanner concurrency bug that
+        // crashes verifyPlugin on CI with ClosedFileSystemException. Drop this once
+        // upstream releases a fix.
+        pluginVerifier("1.402")
     }
 }
 
