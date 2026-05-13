@@ -77,4 +77,12 @@ tasks {
     publishPlugin {
         dependsOn(patchChangelog)
     }
+
+    // IPP's :instrumentCode and :instrumentTestCode share an Ant XML wrapper stack
+    // (BasicAntBuilder / AntXMLContext) that's not thread-safe. Gradle 9.5.1 schedules
+    // them concurrently, causing ArrayIndexOutOfBoundsException ("1 >= 1") in
+    // AntXMLContext.popWrapper. Serialize them as a workaround.
+    instrumentTestCode {
+        mustRunAfter(instrumentCode)
+    }
 }
