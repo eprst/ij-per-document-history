@@ -85,6 +85,8 @@ changelog {
     groups.empty()
     repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
     versionPrefix = ""
+    // Accept 3- or 4-part versions (e.g. 0.0.9, 0.0.9.1) in section headers.
+    headerParserRegex = """(\d+\.\d+\.\d+(?:\.\d+)?)""".toRegex()
 }
 
 tasks {
