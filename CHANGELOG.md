@@ -3,6 +3,11 @@
 # Per-document jump history changelog
 
 ## [Unreleased]
+
+## [0.0.9]
+
+### Changed
+- Migrated to IntelliJ Platform 2026.2 (branch 262, Java 25). Dropped support for 2026.1 and earlier, which run on Java 21 and are incompatible with the Java 25 bytecode produced by this build.
 - Removed `Shift` handling, can be done natively by binding the original 'Back/Forward' actions to the same shortcuts, but with `Shift`
 
 ## [0.0.8]

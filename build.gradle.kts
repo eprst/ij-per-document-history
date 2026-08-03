@@ -3,6 +3,8 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.intellij.platform")
@@ -14,13 +16,25 @@ dependencies {
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
-        intellijIdea("2025.3")
+        intellijIdea("2026.2")
         testFramework(TestFrameworkType.Platform)
         // Pin Plugin Verifier — 1.403 has a ContentModuleScanner concurrency bug that
         // crashes verifyPlugin on CI with ClosedFileSystemException. Drop this once
         // upstream releases a fix.
         pluginVerifier("1.402")
     }
+}
+
+// 2026.2 platform classes are compiled with JDK 25 (class version 69). Compile with
+// JDK 25 to avoid "class file has wrong version 69.0, should be 65.0" errors.
+// foojay-resolver-convention (settings.gradle.kts) provisions the toolchain.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+kotlin {
+    jvmToolchain(25)
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
