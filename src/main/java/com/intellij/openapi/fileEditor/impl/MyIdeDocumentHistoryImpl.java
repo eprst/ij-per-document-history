@@ -26,10 +26,25 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
     } else {
       superRemoveInvalidFilesFromStacks();
       getBackInCurrentDocumentPlace().ifPresent(place -> {
-        superBackPlaces().remove(place);
+        var current = getCurrentPlaceInfo();
+        var backPlaces = superBackPlaces();
+        // places newer than the target were skipped as being at the current position (e.g. where this document
+        // was left); drop them too, the current position is added to the forward places below
+        var skipped = backPlaces
+            .reversed()
+            .stream()
+            .takeWhile(p -> p != place)
+            .filter(p -> current != null && isSame(current, p))
+            .filter(p -> current.getWindow() == null || current.getWindow() == p.getWindow())
+            .toList();
+        for (var p : skipped) {
+          backPlaces.remove(p);
+          myProject.getMessageBus().syncPublisher(RecentPlacesListener.TOPIC).recentPlaceRemoved(p, false);
+        }
+
+        backPlaces.remove(place);
         myProject.getMessageBus().syncPublisher(RecentPlacesListener.TOPIC).recentPlaceRemoved(place, false);
 
-        var current = getCurrentPlaceInfo();
         if (current != null) superForwardPlaces().add(current);
 
         setSuperBackInProgress(true);
@@ -80,6 +95,8 @@ public final class MyIdeDocumentHistoryImpl extends IdeDocumentHistoryImpl {
           .stream()
           .filter(p -> p.getFile().equals(curEditor.getFileEditor().getFile()))
           .filter(p -> currentWindow == null || currentWindow == p.getWindow())
+          // going back to the current position is a no-op, e.g. to where this document was left
+          .filter(p -> currentPlace == null || !isSame(currentPlace, p))
           .findFirst();
     } else {
       return Optional.empty();
